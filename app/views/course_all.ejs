@@ -1,0 +1,63 @@
+<% include _header %>
+
+<br>
+<center>
+  <h2>Course List</h2>
+</center>
+<hr/>
+
+<div class = "table-responsive courses-table">
+<table class = "table" id = "table-all-courses">  
+  <% if(courses.length>0) {%>
+  <thead class = "top-row-courses">
+    <th>Class Name</th>
+    <th>Professor</th>
+    <th>Description</th>
+    <th><center>Enrollment</center></th><% if(currentUser.admin){%><th>Delete course</th><% } %></thead>
+    <% courses.forEach(function(course){ %>
+          <tr>
+            <td data-label = "Class Name"><a href="courses/<%= course._id %>"</a><%= course.name %></td>
+            <td data-label = "Professor"><%= course.professor %></td>
+            <td data-label = "Description"><%= course.description %></td>
+            <td data-label = "Enrollment" >
+              <% if(currentUser.courses.includes(course._id)){ %>
+              <center><span class="badge badge-success">Enrolled</span></center>
+              <% } else { %>
+              <form action="/addcourse" method="post">
+                <input type="hidden" name="course_id" value=<%= course._id %>>
+                <center><input type="submit" value="Enroll" class="btn btn-primary "></center>
+              </form>
+              <% } %>
+            </td>
+            <% if(currentUser.admin){ %>
+            <td>
+              <form action="/deletecourse" method="post">
+                <input type="hidden" name="course_id" value=<%= course._id %>>
+                <center><input type="submit" value="Delete" class="btn btn-danger"></center>
+              </form>
+            </td>
+            <% } %>
+          </tr>
+        <% }); %>
+  <% } else { %>
+  <p>There are no courses yet, add one below!</p>
+  <% } %>
+</table>
+  </div>
+
+
+<% if(currentUser.admin){%>
+
+<div class = "add-class-section">
+  <center><h2>Add a class</h2></center>
+<form action="/courses" method="post">
+  <input name="name" type="text" class="form-control" placeholder="Class Name"><br>
+  <input name="professor" type="text" class="form-control" placeholder="Professor Name"><br>
+  <textarea name="description" class="form-control" placeholder="Class description"></textarea><br>
+  <input type="submit" value="Add Class" class="btn btn-primary btn-block" style = "width:auto"><br>
+</form>
+</div>
+
+<% } %>
+
+<% include _footer %>

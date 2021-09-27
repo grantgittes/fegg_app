@@ -1,0 +1,160 @@
+<% include _header %>
+<br>
+
+<div class = "question-container">
+  <div class = "question-topic-container">
+    <h2><%= question.topic %></h2>
+  </div>
+  <div class = "question-details-container">
+    <div id = "1">
+      Author: <%= question.user_id.name() %>
+    </div>
+    <div id = "2">
+      Date: <%= question.post_date.toString().replace(/(([^\s]+\s\s*){4})(.*)/,"$1")  %>
+    </div>
+    <div id = "3">
+      Class: <%= question.course_id.name %>
+    </div>
+     
+  </div>
+  <br>
+  <div id = "question-text-container">
+    <p><%= question.text %></p>
+  </div>
+</div>
+     
+
+<div class = "answers-container">
+  <div>
+    <p>
+      <h3>
+        Post an Answer:
+    </h3>
+    </p>
+  <form action="/answer" method="post">
+  <textarea
+    name="text"
+    class="form-control"
+    placeholder="Post your answer"
+    
+  ></textarea>
+  <input type="hidden" name="question_id" value=<%= question._id %>><br>
+  <input type="submit" value="Post Answer!" class="btn btn-primary btn-block" style = "width:auto"/><br>
+</form>
+  </div>
+<hr/>
+<!-- <table>
+  
+  <% if(answers.length>0) {%>
+  <tr>
+    <th>text</th>
+    <th>user_id</th>
+    <th>post_date</th>
+    <th>question_id</th>
+    <th>net votes</th>
+    <th>upvote</th>
+    <th>downvote</th>
+    <% if(currentUser.admin){ %>
+    <th>Delete question</th>
+    <% } %>
+  </tr>
+  <% answers.forEach(function(answer){ %>
+          <tr>
+            <td><%= answer.text %></td>
+            <td><%= answer.user_id.name() %></td>
+            <td><%= answer.post_date %></td>
+            <td><%= answer.question_id %></td>
+            <td><%= answer.net_vote %></td>
+            <td>
+              <form action="/answer/vote" method="post">
+                <input type="hidden" name="qid" value=<%= question._id %>>
+                <input type="hidden" name="id" value=<%= answer._id %>>
+                <input type="hidden" name="vote" value=1>
+                <button type="submit"  class="btn btn-info" style = "width:auto"><i class="fas fa-sort-up"></i></button>
+              </form>
+            </td>
+            <td>
+              <form action="/answer/vote" method="post">
+                <input type="hidden" name="qid" value=<%= question._id %>>
+                <input type="hidden" name="id" value=<%= answer._id %>>
+                <input type="hidden" name="vote" value=-1>
+                <button type="submit"  class="btn btn-danger btn-block" style = "width:auto; height:auto;"><i class="fas fa-sort-down"></i></button>
+              </form>
+            </td>
+            <% if(currentUser.admin){ %>
+            <td>
+              <form action="/deleteanswer" method="post">
+                <input type="hidden" name="question_id" value=<%= question._id %>>
+                <input type="hidden" name="answer_id" value=<%= answer._id %>>
+                <button type="submit"  class="btn btn-danger btn-block" style = "width:auto"><i class="fas fa-trash"></i></button>
+              </form>
+            </td>
+            <% } %>
+          </tr>
+        <% }); %>
+  <% } else { %>
+  <p>There are no answers for this question.  Reply below.</p>
+  <% } %>
+</table> -->
+<% if(answers.length>0) {%>
+<% answers.forEach(function(answer){ %>
+<div class = "list-of-answers">
+<center>
+  <table class="tg table-responsive" >
+  <colgroup>
+    <col style="width: 90%">
+    <col style="width: auto">
+    <col style="width: auto">
+  </colgroup>
+  <tbody>
+    <tr>
+      <td id="answer-author-name" colspan="3"> <%= answer.user_id.name() %></td>
+    </tr>
+    <tr>
+      <td class="tg-0pky" colspan="3"><font size = "3.5em"><%= answer.text %></font></td>
+    </tr>
+    
+    <tr>
+      <td class="tg-0pky"><font color = "grey"><%= answer.post_date.toString().replace(/(([^\s]+\s\s*){4})(.*)/,"$1")  %></font></td>
+      <% if(currentUser.admin){ %>
+      <td class="tg-0pky">
+        <form action="/deleteanswer" method="post">
+                <input type="hidden" name="question_id" value=<%= question._id %>>
+                <input type="hidden" name="answer_id" value=<%= answer._id %>>
+                <button type="submit"  class="btn btn-danger btn-block" style = "width:auto"><i class="fas fa-trash"></i></button>
+              </form>
+      </td><% } %>
+      <td class="tg-0pky"> 
+              <form action="/answer/vote" method="post">
+                <input type="hidden" name="qid" value=<%= question._id %>>
+                <input type="hidden" name="id" value=<%= answer._id %>>
+                <input type="hidden" name="vote" value=1>
+                <button type="submit"  class="btn btn-info" style = "width:auto"><i class="fas fa-sort-up"></i></button>
+              </form>
+      </td>
+      <td class="tg-0pky">
+        <form action="/answer/vote" method="post">
+                <input type="hidden" name="qid" value=<%= question._id %>>
+                <input type="hidden" name="id" value=<%= answer._id %>>
+                <input type="hidden" name="vote" value=-1>
+                <button type="submit"  class="btn btn-danger btn-block" style = "width:auto; height:auto;"><i class="fas fa-sort-down"></i></button>
+        </form>
+      </td>
+      <td class = "tg-0pky"><%= answer.net_vote %> votes</td>
+    </tr>
+    <tr>
+      <td class="tg-0lax" colspan="3"></td>
+    </tr>
+  </tbody>
+</table>
+
+</center>
+</div>
+  <% }); %>
+ <% } else { %>
+  <p>There are no answers for this question. Post your answer!</p>
+  <% } %>
+</div>
+
+<br>
+<% include _footer %>

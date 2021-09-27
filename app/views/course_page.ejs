@@ -1,0 +1,78 @@
+<% include _header %>
+<div class = "course-detail-container">
+  <h2 class = "course-name"><%= course.name %></h2>
+  <p class = "course-professor">Taught by: <%= course.professor %></p>
+  <p class = "course-description"><%= course.description %></p>
+</div>
+
+
+<div class = "course-detail-container">
+  
+
+<h2>Questions:</h2>
+
+<% if(questions.length>0) {%>
+<% questions.forEach(function(question){ %>
+<div class = "list-of-questions">
+<center>
+  <table class="tg table-responsive" >
+  <colgroup>
+    <col style="width: 90%">
+    <col style="width: auto">
+    <col style="width: auto">
+  </colgroup>
+  <tbody>
+    <tr>
+      <td><a href="question/<%= question._id %>"</a><p class = "question-topic"><%= question.topic %></p></td>
+    </tr>
+    <tr>
+      <td class="tg-0pky" colspan="3"><font size = "3.5em"><%= question.text %></font></td>
+    </tr>
+    <tr>
+      <td class="tg-0pky" colspan="3"><font size = "3.5em" color = "grey"><%= question.user_id.name() %></font></td>
+    </tr>
+    
+    <tr>
+      <td class="tg-0pky"><font color = "grey"><%= 
+      
+      question.post_date.getMonth() + "/" + question.post_date.getDate() + "/" + question.post_date.getYear()
+      
+      %>
+        </font></td>
+      <% if(currentUser.admin){ %>
+      <td class="tg-0pky">
+        <form action="/deletequestion" method="post">
+                <input type="hidden" name="course_id" value=<%= course._id %>>
+                <input type="hidden" name="question_id" value=<%= question._id %>>
+                <button type="submit"  class="btn btn-danger btn-block" style = "width:auto"><i class="fas fa-trash"></i></button>
+              </form>
+      </td><% } %>
+          
+      
+          </tr>
+      </tbody>
+</table>
+
+</center>
+</div>
+  <% }); %>
+ <% } else { %>
+  <p>There are no answers for this question. Post your answer!</p>
+  <% } %>
+  
+</div>
+<hr/>
+<div class = "course-detail-container">
+<h2>Ask a question</h2>
+<form action="/question" method="post">
+  <input name="topic" type="text" class="form-control" placeholder="Topic">
+  <br>
+  <textarea name="text" class="form-control" placeholder="Write your question"></textarea>
+  <br>
+  <input type="hidden" name="course_id" value=<%= course._id %>>
+  <br>
+  <center><input type="submit" value="Post Question!" class="btn btn-primary btn-block" style = "width: auto"></center>
+</form>
+</div>
+<br>
+<% include _footer %>

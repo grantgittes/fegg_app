@@ -1,0 +1,53 @@
+<% include _header %>
+
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class= "col-sm-8">
+      <h1>My Profile</h1>
+    </div>
+    <div class="jumbotron col-sm-8" id="account-main">
+      <h4>
+        Click to Change
+      </h4>
+      <form action="/edit" method="post">
+        <div class="form-group row justify-content-center" id="name-form">
+          <label for="displayname" class="col-sm-3 col-form-label"><h5>Display Name:</h5></label>
+          <div class="col-sm-4">
+            <input name="displayname" type="text" class="form-control" placeholder="Display name" value="<%= currentUser.displayName || "" %>" disabled id="displayname">
+          </div>
+        </div>
+        <div class="form-group row justify-content-center" id="email-form">
+          <label for="email" class="col-sm-3 col-form-label"><h5>Email:</h5></label>
+          <div class="col-sm-4">
+            <input name="email" type="email" class="form-control" placeholder="Email" value="<%= currentUser.email || "" %>" disabled id="email">
+          </div>
+        </div>
+        <div class="form-group row justify-content-center" id="bio-form">
+          <label for="bio" class="col-sm-3 col-form-label"><h5>Introduction:</h5></label>
+          <div class="col-sm-4">
+            <textarea name="bio" class="form-control" placeholder="Tell us about yourself!" disabled id="bio"><%= currentUser.bio || "" %></textarea>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <button type="submit" class="btn btn-sm btn-primary" id="change" style="margin:1%;" disabled>
+            Change Information
+          </button>
+          <button type="button" class="btn btn-sm btn-secondary" id="notchange" style="margin:1%;">
+            Cancel
+          </button>
+        </div>
+      </form>
+
+      <hr class="my-3">
+      <hr class="my-4">
+<!--           <button type="button" class="btn btn-sm btn-danger" id="change-pwd" data-toggle="modal" data-target="#pwdModal" style="float:right">
+            Change Password
+          </button>
+          <% include pwd_modal %> -->
+    </div>
+  </div>
+</div>
+
+
+<% include _footer %>

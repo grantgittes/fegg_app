@@ -1,0 +1,32 @@
+<% include _header %>
+<br>
+<div class="row justify-content-center" id = "profile-card">
+   <div class="card" style="max-width: 80%;" >
+     <div style="max-width:100%; text-align:center;">
+       <br>
+       <img src=<%= user.avatar_url %> class="card-img-top" alt="avatar" style="max-width:30%; border-radius: 80px; border-style: solid; border-width: 3px; border-color: grey; padding: 5px;">
+     </div>
+    <div class="card-body">
+      <h3 class="card-title" style="text-align:center"><%= user.username %></h3>
+      <p class="card-text">
+        <strong>Also known as:</strong> <%= user.displayName %>
+      </p>
+      <p class="card-text">
+        <strong>Joined on:</strong> <%= user.created.toString().replace(/(([^\s]+\s\s*){4})(.*)/,"$1")  %>
+      </p>
+      <% if (user.bio) { %>
+      <p  class="card-text">
+        <Strong>Biography: </Strong><%= user.bio %>
+      </p>
+      <% } %>
+      <p class="card-text">
+        <Strong>Contact: </Strong><email><%= user.email %></email>
+      </p>
+      <% if ((currentUser) && (currentUser.id === user.id)) { %>
+        <a href="/edit" class="btn btn-outline-primary" style="float:right">
+          Edit your profile
+        </a>
+      <% } %>
+    </div>
+  </div>     
+</div>
